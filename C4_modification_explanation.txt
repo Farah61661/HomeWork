@@ -1,0 +1,23 @@
+Since the C compiler doesn’t natively support exponentiation, I decided to add a feature that allows it using the ** operator.
+
+First, in line 30 of the modified code, I added Pow to the type enum/list to represent exponentiation.
+
+Next, I introduced a new opcode (POW) in line 37, which helps with parsing.
+
+Then, I updated the lexer (next() function) in line 268 to recognize ** as a single token instead of two separate * tokens. This prevents incorrect parsing, like treating 2**3 as 2 * * 3, which could cause syntax errors.
+
+I also modified the parser (expr() function) in line 268 to handle Pow with the correct precedence—before multiplication and division. This ensures 2 ** 3 * 4 is evaluated as (2**3) * 4 instead of 2**(3*4).
+
+Finally, I implemented the exponentiation operation in line 533 using a simple for loop to define how ** should behave.
+
+To verify the feature, I tested it with this C code, and it produced the correct output:
+
+int main() {
+    int x;
+    x = 2 ** 3;
+
+    printf("%d\n", x);
+
+    return 0;
+}
+
